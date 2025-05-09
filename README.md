@@ -28,9 +28,13 @@ pip install openpyxl
 
 ## File requirements.txt
 requests
+
 beautifulsoup4
+
 pandas
+
 schedule
+
 openpyxl
 ## Tự động thu thập mỗi ngày
 Sau khi chạy script, chương trình sẽ tự động:
