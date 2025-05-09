@@ -72,7 +72,8 @@ CATEGORY_PATH = "/xa-hoi.chn"
 
 +Kết quả: danh sách dict {"title": ..., "url": ...}
 
-5. Lấy nội dung chi tiết từng bài viết
+4. Lấy nội dung chi tiết từng bài viết:
+   
 def get_article_details(article):
     url = article.get("url")
     if not url:
@@ -111,7 +112,8 @@ def get_article_details(article):
     }
 +Trả về một dict chứa toàn bộ thông tin bài viết.
 
-6. Thu thập nhiều trang và lưu file Excel
+5. Thu thập nhiều trang và lưu file Excel:
+
   def collect_data():
     full_data = []
     max_pages = 5
@@ -147,11 +149,13 @@ def get_article_details(article):
         print("⚠️ Không có bài viết nào.")
    
 +Tạo file .xlsx chứa toàn bộ dữ liệu.
-7. Thiết lập công việc theo lịch
+6. Thiết lập công việc theo lịch:
+
 def job():
     print(f"🕕 [{datetime.datetime.now()}] Bắt đầu thu thập dữ liệu Kenh14...")
     collect_data()
-8. Chạy chính: tự động mỗi ngày
+7. Chạy chính: tự động mỗi ngày:
+
 if __name__ == "__main__":
     schedule.every().day.at("22:17").do(job)  # Hoặc "06:00"
     job()  # Chạy ngay khi khởi động
