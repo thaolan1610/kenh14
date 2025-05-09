@@ -4,6 +4,7 @@ import pandas as pd
 import time
 from urllib.parse import urljoin
 import schedule
+import datetime
 
 BASE_URL = "https://kenh14.vn"
 CATEGORY_PATH = "/xa-hoi.chn"
@@ -60,7 +61,7 @@ def get_article_details(article):
 # Thu thập và lưu dữ liệu từ nhiều trang
 def collect_data():
     full_data = []
-    max_pages = 5  # 👉 Có thể thay đổi số trang cần quét
+    max_pages = 5  
 
     for page in range(1, max_pages + 1):
         url = f"https://kenh14.vn/xa-hoi/trang-{page}.chn"
@@ -81,27 +82,21 @@ def collect_data():
     if full_data:
         df = pd.DataFrame(full_data)
         timestamp = time.strftime("%Y%m%d_%H%M%S")
-        filename = f"kenh14_xahoi_{timestamp}.csv"
         excel_filename = f"kenh14_xahoi_{timestamp}.xlsx"
         df.to_excel(excel_filename, index=False)
         print(f"✅ Đã lưu {len(full_data)} bài viết vào {excel_filename}")
-
     else:
         print("⚠️ Không có bài viết nào.")
 
-# Lập lịch hoặc chạy thử ngay
+# Lập lịch chạy lúc 6h sáng mỗi ngày
 def job():
-    print("🕕 Bắt đầu thu thập dữ liệu Kenh14...")
+    print(f"🕕 [{datetime.datetime.now()}] Bắt đầu thu thập dữ liệu Kenh14...")
     collect_data()
 
 if __name__ == "__main__":
-     #Chạy mỗi ngày lúc 6h sáng:
-    schedule.every().day.at("6:00").do(job)
-
+   
+    schedule.every().day.at("06:00").do(job)  # Lịch chạy lúc 6h sáng
+    job()
     while True:
-        schedule.run_pending()  # Kiểm tra nếu có tác vụ nào cần thực hiện
-        time.sleep(60)  # Đợi 1 phút trước khi kiểm tra lại
-    
-
-
-    
+        schedule.run_pending()  # Kiểm tra lịch trình
+        time.sleep(60)  # Chờ 1 phút rồi kiểm tra lại
