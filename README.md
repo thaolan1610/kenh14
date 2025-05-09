@@ -19,5 +19,10 @@ cd kenh14-scraper
 ```bash
 pip install openpyxl
 pip install -r requirements.txt
-
+##requirements.txt:
+requests
+beautifulsoup4
+pandas
+schedule
+openpyxl
 
