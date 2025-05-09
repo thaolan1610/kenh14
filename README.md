@@ -86,16 +86,19 @@ def get_article_details(article):
 -Kiểm tra URL bài viết.
 
 +Lấy nội dung HTML của bài viết.
+
     meta_desc = soup.find("meta", attrs={"name": "description"})
     description = meta_desc["content"].strip() if meta_desc and meta_desc.get("content") else ""
    
 +Lấy phần mô tả từ thẻ <meta name="description">.
+
     image_url = ""
     image_meta = soup.find("meta", property="og:image")
     if image_meta:
         image_url = image_meta.get("content", "")
    
 +lấy ảnh đại diện bài viết từ thẻ <meta property="og:image">
+
     content = ""
     content_div = soup.find("div", class_="knc-content")
     if content_div:
@@ -103,6 +106,7 @@ def get_article_details(article):
         content = "\n".join([p.get_text(strip=True) for p in paragraphs if p.get_text(strip=True)])
    
 +Lấy nội dung văn bản trong bài viết, từ các thẻ <p> bên trong <div class="knc-content">.
+
     return {
         "Tiêu đề": article["title"],
         "Mô tả": description,
@@ -117,6 +121,7 @@ def get_article_details(article):
   def collect_data():
     full_data = []
     max_pages = 5
+    
 +Thu thập từ 5 trang đầu tiên của chuyên mục Xã hội.
 
     for page in range(1, max_pages + 1):
@@ -134,11 +139,13 @@ def get_article_details(article):
             time.sleep(1)
         except Exception as e:
             print(f"❌ Lỗi ở trang {page}: {e}")
+            
 +Lặp qua từng trang.
 
 +Lấy danh sách bài viết và nội dung chi tiết từng bài.
 
 +Lấy danh sách bài viết và nội dung chi tiết từng bài.
+
     if full_data:
         df = pd.DataFrame(full_data)
         timestamp = time.strftime("%Y%m%d_%H%M%S")
@@ -149,11 +156,13 @@ def get_article_details(article):
         print("⚠️ Không có bài viết nào.")
    
 +Tạo file .xlsx chứa toàn bộ dữ liệu.
+
 6. Thiết lập công việc theo lịch:
 
 def job():
     print(f"🕕 [{datetime.datetime.now()}] Bắt đầu thu thập dữ liệu Kenh14...")
     collect_data()
+    
 7. Chạy chính: tự động mỗi ngày:
 
 if __name__ == "__main__":
